@@ -1,0 +1,54 @@
+﻿@model CarDealership.UI.Models.InventoryReportViewModel
+
+@{
+    ViewBag.Title = "Inventory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div class="row"><h2>Inventory Report</h2></div>
+    <div class="row">
+        <h5>New Vehicles</h5>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Year</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Count</th>
+                <th>Stock Value</th>
+            </tr>
+            @foreach (var report in Model.NewReports)
+            {
+            <tr>
+                <td>@report.Year</td>
+                <td>@report.Make</td>
+                <td>@report.Model</td>
+                <td>@report.Count</td>
+                <td>@report.StockValue</td>
+            </tr>
+            }
+        </table>
+    </div>
+    <div class="row">
+        <h5>Used Vehicles</h5>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Year</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Count</th>
+                <th>Stock Value</th>
+            </tr>
+            @foreach (var report in Model.UsedReports)
+            {
+                <tr>
+                    <td>@report.Year</td>
+                    <td>@report.Make</td>
+                    <td>@report.Model</td>
+                    <td>@report.Count</td>
+                    <td>@report.StockValue</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

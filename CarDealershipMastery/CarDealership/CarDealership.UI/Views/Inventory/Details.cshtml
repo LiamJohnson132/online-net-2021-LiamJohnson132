@@ -1,0 +1,43 @@
+﻿@model CarDealership.Models.Car
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div class="row">
+        <h2 style="padding-top: 1em; padding-bottom: 1em;">Vehicle Details</h2>
+        <div class="row" style="border: solid black 3px; padding: 1em;">
+            <h4><strong>@Model.Year @Model.Make @Model.Model</strong></h4>
+            <div class="col-3"><img class="img-fluid" src="../../Images/@Model.ImgFileName" /></div>
+            <div class="col-9">
+                <div class="row">
+                    <p class="col-4"><strong>Body Style: </strong>@Model.BodyStyle</p>
+                    <p class="col-4"><strong>Interior: </strong>@Model.Interior</p>
+                    <p class="col-4"><strong>Sale Price: </strong>@Model.Price</p>
+                </div>
+                <div class="row">
+                    <p class="col-4"><strong>Trans: </strong>@Model.Transmission</p>
+                    <p class="col-4"><strong>Mileage: </strong>@Model.Mileage</p>
+                    <p class="col-4"><strong>MSRP: </strong>@Model.MSRP</p>
+                </div>
+                <div class="row">
+                    <p class="col-4"><strong>Color: </strong>@Model.Color</p>
+                    <p class="col-8"><strong>VIN #: </strong>@Model.VIN</p>
+                </div>
+                <div class="row"><p><strong>Description: </strong>@Model.Description</p></div>
+                <div class="row justify-content-end">
+                    @if (Model.IsSold)
+                    {
+                        <button class="btn disabled col-4">Unavailable - Sold</button>
+                    }
+                    @if (!Model.IsSold)
+                    {
+                        @Html.ActionLink("Contact Us", "Contact", "Home", new { @vin = Model.VIN }, new { @class = "btn btn-primary col-4", style = "float: right;" })
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

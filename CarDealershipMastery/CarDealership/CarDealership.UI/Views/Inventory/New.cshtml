@@ -1,0 +1,112 @@
+﻿@model CarDealership.UI.Models.InventoryViewModel
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div class="row">
+        <h2>New Vehicles</h2>
+        <div class="row">
+            <form id="formSearch" style="border: 3px solid black;">
+                <div><h3>Quick Search</h3></div>
+                <div class="row">
+                    <div class="form-group col-4">
+                        <input id="parameter" class="form-control" placeholder="Enter make, model, or year" />
+                    </div>
+                    <div class="form-group col-4 form-inline">
+                        <div class="row">
+                            <div class="col-2 btn disabled fw-bold"><label>Price</label></div>
+                            <div class="col-5">@Html.DropDownList("priceMin", new SelectList(Model.PriceRanges), "No Min", new { @class = "form-select" })</div>
+                            <div class="col-5">@Html.DropDownList("priceMax", new SelectList(Model.PriceRanges), "No Max", new { @class = "form-select" })</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-4 form-inline">
+                        <div class="row">
+                            <div class="col-2 btn disabled fw-bold"><label>Year</label></div>
+                            <div class="col-5">@Html.DropDownList("yearMin", new SelectList(Model.YearRanges), "No Min", new { @class = "form-select" })</div>
+                            <div class="col-5">@Html.DropDownList("yearMax", new SelectList(Model.YearRanges), "No Max", new { @class = "form-select" })</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-4"></div>
+                    <button class="btn btn-primary col-4 fw-bold" style="margin-top: 1em; margin-bottom: 1em;" type="submit">Search</button>
+                    <div class="col-4"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Search Results</h2>
+        <div id="searchResults" class="row">
+            <!-- search results here -->
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(function () {
+            $('#formSearch').submit(function (e) {
+                search();
+                return false;
+            })
+        })
+
+        function search() {
+            var params;
+
+            params = 'parameter=' + $('#parameter').val() + '&' +
+                'priceMin=' + $('#priceMin').val() + '&' +
+                'priceMax=' + $('#priceMax').val() + '&' +
+                'yearMin=' + $('#yearMin').val() + '&' +
+                'yearMax=' + $('#yearMax').val();
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://localhost:44348/api/inventory/searchnew?' + params,
+                success: function (results) {
+                    $('#searchResults').empty();
+
+                    $.each(results, function (index, vehicle) {
+                        var html = '<div style="border: 3px solid black; margin-bottom: 1em;">' +
+                                        '<div class="row">' +
+                                            '<h4 style="font-weight: bold;">' + vehicle.Year + ' ' + vehicle.Make + ' ' + vehicle.Model + '</h4>' +
+                                        '</div>' +
+                                        '<div class="row">' +
+                                            '<div class="col-3">' +
+                                                '<img class="img-rounded" style="max-height: 200px;" src="../../Images/' + vehicle.ImgFileName + '" />' +
+                                            '</div>' +
+                                            '<div class="col-9">' +
+                                                '<div class="row">' +
+                            '<p class="col-4"><strong>Body Style: </strong>' + vehicle.BodyStyle + '</p>' +
+                            '<p class="col-4"><strong>Interior: </strong>' + vehicle.Interior + '</p>' +
+                            '<p class="col-4"><strong>Sale Price: </strong>$' + vehicle.Price.toFixed(2) + '</p>' +
+                            '</div>' +
+                            '<div class="row">' +
+                            '<p class="col-4"><strong>Trans: </strong>' + vehicle.Transmission + '</p>' +
+                            '<p class="col-4"><strong>Mileage: </strong>' + vehicle.Mileage + '</p>' +
+                            '<p class="col-4"><strong>MSRP: </strong>$' + vehicle.MSRP.toFixed(2) + '</p>' +
+                            '</div>' +
+                                                '<div class="row">' +
+                                                    '<p class="col-4"><strong>Color: </strong>' + vehicle.Color + '</p>' +
+                                                    '<p class="col-4"><strong>VIN #: </strong>' + vehicle.VIN + '</p>' +
+                                                    '<a href="../Inventory/Details/' + vehicle.CarId + '" class="btn btn-primary col-3" style="float: right;">Details</a>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>';
+
+                        $('#searchResults').append(html);
+                    })
+                },
+                error: function () {
+                    alert('Could not search, try again later!');
+                }
+            })
+        }
+    </script>
+} 

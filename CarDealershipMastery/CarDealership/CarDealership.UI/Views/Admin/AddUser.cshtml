@@ -1,0 +1,47 @@
+﻿@model CarDealership.UI.Models.UserAddViewModel
+
+@{
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h2>Add User</h2>
+    <div class="row">
+        @using (Html.BeginForm("AddUser", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "formUserAdd" }))
+        {
+            @Html.ValidationSummary()
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>First Name</label>
+                    @Html.TextBoxFor(m => m.UserModel.FirstName, new { @class = "form-control", required = "true" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Last Name</label>
+                    @Html.TextBoxFor(m => m.UserModel.LastName, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Email</label>
+                    @Html.TextBoxFor(m => m.UserModel.Email, new { @class = "form-control", required = "true", type = "email" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Role</label>
+                    @Html.DropDownListFor(m => m.UserModel.Role, new SelectList(Model.Roles, "Name", "Name"), new { @class = "form-control form-select" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Password</label>
+                    @Html.PasswordFor(m => m.UserModel.Password, new { @class = "form-control", required = "true", type = "password" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Confirm Password</label>
+                    @Html.PasswordFor(m => m.UserModel.PasswordConfirm, new { @class = "form-control", required = "true", type = "password" })
+                </div>
+            </div>
+            <div style="margin-top: 1em;"><button class="btn btn-primary">Save</button></div>
+        }
+    </div>
+</div>

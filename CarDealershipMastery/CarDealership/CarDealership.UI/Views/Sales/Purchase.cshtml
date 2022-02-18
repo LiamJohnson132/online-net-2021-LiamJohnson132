@@ -1,0 +1,145 @@
+﻿@model CarDealership.UI.Models.PurchaseViewModel
+
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div class="row">
+        <h2 style="padding-top: 1em; padding-bottom: 1em;">Purchase Vehicle</h2>
+        <div class="row" style="border: solid black 3px; padding: 1em;">
+            <h4><strong>@Model.Car.Year @Model.Car.Make @Model.Car.Model</strong></h4>
+            <div class="col-3"><img class="img-fluid" src="../../Images/@Model.Car.ImgFileName" /></div>
+            <div class="col-9">
+                <div class="row">
+                    <p class="col-4"><strong>Body Style: </strong>@Model.Car.BodyStyle</p>
+                    <p class="col-4"><strong>Interior: </strong>@Model.Car.Interior</p>
+                    <p class="col-4"><strong>Sale Price: </strong>@Model.Car.Price</p>
+                </div>
+                <div class="row">
+                    <p class="col-4"><strong>Trans: </strong>@Model.Car.Transmission</p>
+                    <p class="col-4"><strong>Mileage: </strong>@Model.Car.Mileage</p>
+                    <p class="col-4"><strong>MSRP: </strong>@Model.Car.MSRP</p>
+                </div>
+                <div class="row">
+                    <p class="col-4"><strong>Color: </strong>@Model.Car.Color</p>
+                    <p class="col-8"><strong>VIN #: </strong>@Model.Car.VIN</p>
+                </div>
+                <div class="row"><p><strong>Description: </strong>@Model.Car.Description</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1em;">
+        <h2>Sale Information</h2>
+        @using (Html.BeginForm("Purchase", "Sales", FormMethod.Post, new { enctype = "multipart/form-data", id = "formOrderAdd" }))
+        {
+            @Html.ValidationSummary()
+            @Html.HiddenFor(m => m.Order.CarId)
+            @Html.HiddenFor(m => m.Order.UserEmail)
+            @Html.HiddenFor(m => m.Car.MSRP)
+            @Html.HiddenFor(m => m.Car.Price)
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Name</label>
+                    @Html.TextBoxFor(m => m.Order.Name, new { @class = "form-control", required = "true" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Phone</label>
+                    @Html.TextBoxFor(m => m.Order.Phone, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                @Html.TextBoxFor(m => m.Order.Email, new { @class = "form-control", type = "true", data_val = "false" })
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Street 1</label>
+                    @Html.TextBoxFor(m => m.Order.StreetOne, new { @class = "form-control", required = "true" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Street 2</label>
+                    @Html.TextBoxFor(m => m.Order.StreetTwo, new { @class = "form-control", data_val = "false" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>City</label>
+                    @Html.TextBoxFor(m => m.Order.City, new { @class = "form-control", required = "true" })
+                </div>
+                <div class="form-group col-6">
+                    <label>State</label>
+                    @Html.DropDownListFor(m => m.Order.StateId, new SelectList(Model.States, "StateId", "StateId"), new { @class = "form-select" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Zipcode</label>
+                @Html.TextBoxFor(m => m.Order.Zipcode, new { @class = "form-control", required = "true", maxlength = "5" })
+            </div>
+            <hr />
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Purchase Price</label>
+                    @Html.TextBoxFor(m => m.Order.PurchasePrice, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Purchase Type</label>
+                    @Html.DropDownListFor(m => m.Order.PurchaseTypeId, new SelectList(Model.PurchaseTypes, "PurchaseTypeId", "Name"), new { @class = "form-select" })
+                </div>
+            </div>
+            <button style="margin-top: 1em;" class="btn btn-primary">Save</button>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/App/Script.js"></script>
+    <script>
+        $(function () {
+            $('#formOrderAdd').validate({
+                rules: {
+                    'Order.Name': {
+                        required: true,
+                        maxlength: 50
+                    },
+                    'Order.Phone': {
+                        required: false,
+                    },
+                    'Order.Email': {
+                        required: false,
+                        email: true
+                    },
+                    'Order.StreetOne': {
+                        required: true,
+                        maxlength: 100
+                    },
+                    'Order.StreetTwo': {
+                        required: false,
+                        maxlength: 100
+                    },
+                    'Order.City': {
+                        required: true,
+                        maxlength: 50
+                    },
+                    'Order.StateId': {
+                        required: true
+                    },
+                    'Order.Zipcode': {
+                        required: true,
+                        minlength: 5,
+                        maxlength: 5
+                    },
+                    'Order.PurchasePrice': {
+                        required: true,
+                        max: 999999.99
+                    },
+                    'Order.PurchaseTypeId': {
+                        required: true
+                    }
+                }
+            })
+        })
+    </script>
+}

@@ -1,0 +1,51 @@
+﻿@model CarDealership.UI.Models.ModelsViewModel
+
+@{
+    ViewBag.Title = "Models";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div class="row">
+        <h2>Models</h2>
+        @using (Html.BeginForm("Models", "Admin", FormMethod.Post, new { @class = "form-inline", style = "border: 3px solid black; margin-top: 1em; margin-bottom: 1em;" }))
+        {
+            <div class="row" style="margin: 1em;">
+                <div class="col-7">
+                    <div class="row">
+                        <label class="col-form-label col-2 text-end">New Model</label>
+                        <div class="col-4">@Html.TextBoxFor(m => m.NewModel.Name, new { @class = "form-control" })</div>
+                        <label class="col-form-label col-2 text-end">Make</label>
+                        <div class="col-4">@Html.DropDownListFor(m => m.NewModel.MakeId, new SelectList(Model.Makes, "MakeId", "Name"), new { @class = "form-select" })</div>
+                    </div>
+                </div>
+                <div class="col-1 justify-content-end">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Make</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">User</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model.Models)
+                {
+                    <tr>
+                        <td>@m.Make</td>
+                        <td>@m.Name</td>
+                        <td>@m.DateAdded.ToString("d")</td>
+                        <td>@m.UserEmail</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

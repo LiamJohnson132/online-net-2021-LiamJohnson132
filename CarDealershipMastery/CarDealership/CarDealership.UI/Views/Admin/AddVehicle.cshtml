@@ -1,0 +1,125 @@
+﻿@model CarDealership.UI.Models.VehicleAddViewModel
+
+@{
+    ViewBag.Title = "AddVehicle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2 style="padding-top: 1em;">Add Vehicle</h2>
+    <div class="row">
+        @using (Html.BeginForm("AddVehicle", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "formOrderAdd" }))
+        {
+            @Html.ValidationSummary()
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Make</label>
+                    @Html.DropDownList("MakeId", new SelectList(Model.Makes, "MakeId", "Name"), new { @class = "form-select" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Model</label>
+                    <select id="Car_ModelId" name="Car.ModelId" class="form-select">
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Type</label>
+                    @Html.DropDownListFor(m => m.Car.TypeId, new SelectList(Model.Types, "TypeId", "Name"), new { @class = "form-select" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Body Style</label>
+                    @Html.DropDownListFor(m => m.Car.BodyStyleId, new SelectList(Model.BodyStyles, "BodyStyleId", "Name"), new { @class = "form-select" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Year</label>
+                    @Html.TextBoxFor(m => m.Car.Year, new { @class = "form-control", type = "number", min = "2000", required = "true" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Transmission</label>
+                    @Html.DropDownListFor(m => m.Car.TransmissionId, new SelectList(Model.Transmissions, "TransmissionId", "Name"), new { @class = "form-select" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Color</label>
+                    @Html.DropDownListFor(m => m.Car.ColorId, new SelectList(Model.Colors, "ColorId", "Name"), new { @class = "form-select" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Interior</label>
+                    @Html.DropDownListFor(m => m.Car.InteriorId, new SelectList(Model.Interiors, "InteriorId", "Name"), new { @class = "form-select" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Mileage</label>
+                    @Html.TextBoxFor(m => m.Car.Mileage, new { @class = "form-control", type = "number", min = "0" })
+                </div>
+                <div class="form-group col-6">
+                    <label>VIN #</label>
+                    @Html.TextBoxFor(m => m.Car.VIN, new { @class = "form-control", maxlength = "17" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>MSRP</label>
+                    @Html.TextBoxFor(m => m.Car.MSRP, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Sale Price</label>
+                    @Html.TextBoxFor(m => m.Car.Price, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-12">
+                    <label>Description</label>
+                    @Html.TextAreaFor(m => m.Car.Description, new { @class = "form-control", style = "min-width: 73%;", rows = 4, required = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Picture</label>
+                <input id="ImageUpload" name="ImageUpload" type="file" class="form-control" required />
+            </div>
+            <button style="margin-top: 1em;" class="btn btn-primary">Save</button>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/App/Script.js"></script>
+    <script>
+        $(document).ready(function () {
+            fillModelSelect($('#MakeId').val());
+        })
+
+        $('#MakeId').on('change', function () {
+            var makeId = $('#MakeId').val();
+
+            fillModelSelect(makeId);
+        })
+
+        function fillModelSelect(makeId) {
+            makeId = $('#MakeId').val();
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://localhost:44348/api/makes/getmodels/' + makeId,
+                success: function (results) {
+                    $('#Car_ModelId').empty();
+
+                    $.each(results, function (index, model) {
+                        var html = '<option value="' + model.ModelId + '">' + model.Name + '</option>'
+
+                        $('#Car_ModelId').append(html);
+                    })
+                },
+                error: function (xml) {
+                    Alert(xml.responseText)
+                }
+            })
+        }
+    </script>
+}

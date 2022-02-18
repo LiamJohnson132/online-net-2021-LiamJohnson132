@@ -1,0 +1,58 @@
+﻿@model CarDealership.UI.Models.HomeViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div class="row">
+        <div class="jumbotron carousel slide" data-bs-ride="carousel" style="background-image: url('../../Images/jumbotronbg.png'); ">
+            <a href="../Home/Specials">
+                <div class="carousel-inner">
+                    @for (int i = 0; i < Model.Specials.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            <div class="item carousel-item active" data-bs-interval="10000">
+                                <img src="../../Images/jumbotronbg.png" style="max-height: 250px;" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h2>@Model.Specials[i].Title</h2>
+                                    <hr />
+                                    <p>@Model.Specials[i].Description</p>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="item carousel-item" data-bs-interval="10000">
+                                <img src="../../Images/jumbotronbg.png" style="max-height: 250px;" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h2>@Model.Specials[i].Title</h2>
+                                    <hr />
+                                    <p>@Model.Specials[i].Description</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </a>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <h3>Featured Vehicles</h3>
+        <div class="align-items-center">
+            @foreach (var car in Model.Featured)
+            {
+                <a class="btn" href="Inventory/Details/@car.CarId" style="border: black solid 2px;">
+                    <div style="padding-left: 1em; padding-right: 1em; margin-left: 1em; margin-right: 1em;">
+                        <img class="text-center" style="max-height: 150px; padding-top: 1em;" src="../../Images/@car.ImgFileName" />
+                        <p class="text-center fw-bold">@car.Year @car.Make @car.Model </p>
+                        <p class="text-center fw-bold">@car.Price.ToString("C")</p>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model CarDealership.UI.Models.UserEditViewModel
+
+@{
+    ViewBag.Title = "EditUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h2>Edit User</h2>
+    <div class="row">
+        @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "formUserEdit" }))
+        {
+            @Html.ValidationSummary()
+            @Html.HiddenFor(m => m.UserModel.UserId)
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>First Name</label>
+                    @Html.TextBoxFor(m => m.UserModel.FirstName, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Last Name</label>
+                    @Html.TextBoxFor(m => m.UserModel.LastName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Email</label>
+                    @Html.TextBoxFor(m => m.UserModel.Email, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Role</label>
+                    @Html.DropDownListFor(m => m.UserModel.Role, new SelectList(Model.Roles, "Name", "Name"), new { @class = "form-control form-select" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label>Password</label>
+                    @Html.PasswordFor(m => m.UserModel.Password, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-6">
+                    <label>Confirm Password</label>
+                    @Html.PasswordFor(m => m.UserModel.PasswordConfirm, new { @class = "form-control" })
+                </div>
+            </div>
+            <div style="margin-top: 1em;"><button class="btn btn-primary">Save</button></div>
+        }
+    </div>
+</div>
