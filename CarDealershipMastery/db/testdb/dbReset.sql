@@ -8,29 +8,22 @@ go
 
 create procedure DbReset as
 begin
-	delete from [Order];
-	delete from [Car];
-	delete from [PurchaseType];
-	delete from [State];
-	delete from [Interior];
-	delete from [Color];
-	delete from [Type];
-	delete from [Transmission];
-	delete from [BodyStyle];
-	delete from [Model];
-	delete from [Make];
-	delete from [Special];
-	delete from [Contact];
-	delete from [AspNetUserRoles];
-	delete from [AspNetUsers];
-	delete from [AspNetRoles];
-
-	dbcc checkident ('Order', reseed, 1);
-	dbcc checkident ('Car', reseed, 1);
-	dbcc checkident ('Model', reseed, 1);
-	dbcc checkident ('Make', reseed, 1);
-	dbcc checkident ('Special', reseed, 1);
-	dbcc checkident ('Contact', reseed, 1);
+	truncate table [Order];
+	truncate table [Car];
+	truncate table [PurchaseType];
+	truncate table [State];
+	truncate table [Interior];
+	truncate table [Color];
+	truncate table [Type];
+	truncate table [Transmission];
+	truncate table [BodyStyle];
+	truncate table [Model];
+	truncate table [Make];
+	truncate table [Special];
+	truncate table [Contact];
+	truncate table [AspNetUserRoles];
+	truncate table [AspNetUsers];
+	truncate table [AspNetRoles];
 
 	-- Make
 set identity_insert [Make] on;

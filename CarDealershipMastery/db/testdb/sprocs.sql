@@ -115,7 +115,7 @@ create procedure [CarGetById] (
 	@CarId int
 ) as
 begin
-	select [CarId], m.[MakeId], c.[ModelId], [TypeId], [BodyStyleId], [Year], [TransmissionId], [ColorId], [InteriorId], [Mileage], [VIN], [MSRP], [Price], [Description], [ImgFileName], [IsSold]
+	select [CarId], m.[MakeId], c.[ModelId], [TypeId], [BodyStyleId], [Year], [TransmissionId], [ColorId], [InteriorId], [Mileage], [VIN], [MSRP], [Price], [Description], [ImgFileName], [IsSold], [IsFeatured]
 	from Car c
 	inner join [Model] m on c.ModelId = m.ModelId
 	where c.[CarId] = @CarId

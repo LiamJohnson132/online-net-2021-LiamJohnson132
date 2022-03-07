@@ -53,7 +53,7 @@ namespace CarDealership.Tests.DataTests
         {
             var contact = new Contact()
             {
-                ContactId = 1,
+                ContactId = 2,
                 Name = "John Doe",
                 Email = "johndoe@example.com",
                 Phone = "5551234567",
@@ -62,7 +62,7 @@ namespace CarDealership.Tests.DataTests
 
             _repo.Insert(contact);
 
-            var found = _repo.GetById(1);
+            var found = _repo.GetById(2);
 
             Assert.AreEqual("John Doe", found.Name);
         }
